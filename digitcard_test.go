@@ -65,3 +65,42 @@ func TestLoadCardFromFile(t *testing.T) {
 		}
 	}
 }
+
+func TestDigitCard_GetDigit(t *testing.T) {
+	type args struct {
+		code string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "GetDigit A4",
+			args: args{code: "A4"},
+			want: "70",
+		},
+		{
+			name: "GetDigit B2",
+			args: args{code: "B2"},
+			want: "31",
+		},
+		{
+			name: "GetDigit C5",
+			args: args{code: "C5"},
+			want: "92",
+		},
+	}
+
+	card, _ := LoadCardFromFile("test_data/digitcard.txt")
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := card.GetDigit(tt.args.code)
+
+			if got != tt.want {
+				t.Errorf("GetDigit() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
